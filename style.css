@@ -1,0 +1,76 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+h2{
+  color: white;
+  margin-left: 2rem;
+  margin: 2rem;
+}
+
+.players{
+  margin-left: 2.5rem;
+}
+
+.players span{
+  cursor: pointer;
+}
+
+.players img {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+ul {
+  list-style-type: none;
+  color: white;
+  margin-left: 2rem;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+li:before {
+  content: "• ";
+  color: red;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+#startBtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 2rem;
+}
+
+#startBtn:hover{
+  box-shadow:
+    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgb(255, 255, 255),
+    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+#canvas1{
+  /* border: 5px solid black; */
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  /* background: #4d79bc; */
+  max-width: 100%;
+  max-height: 100%;
+  font-family: 'Bangers', cursive;
+}
+
+#bg1, #bg2, #bg3, #bg4, #land1, #land2, #land3, #land4, #land5, #land6, #idle_rosa, #jump_rosa, #idle_amarelo, #jump_amarelo, #idle_azul, #jump_azul, #idle_verde, #jump_verde, #estrela, #espinho{
+  display: none;
+}

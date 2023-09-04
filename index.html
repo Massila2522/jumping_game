@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jumping game</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="canvas1"></canvas>
+
+  <h2>Choose player:</h2>
+  <div class="players">
+    <span id="amarelo"><img src="images/amarelo.png" alt=""></span>
+    <span id="azul"><img src="images/azul.png" alt=""></span>
+    <span id="rosa"><img src="images/rosa.png" alt=""></span>
+    <span id="verde"><img src="images/verde.png" alt=""></span>
+  </div>
+
+  <h2>Game Instructions:</h2>
+  <ul>
+    <li>Be careful, if you touch thorns you lose.</li>
+    <li>Collect the maximum number of stars.</li>
+    <li>Don't go to the borders of the lands, as you may fall.</li>
+  </ul>
+
+  <button id="startBtn">Start</button>
+
+  <!-- backgounds -->
+  <img src="images/bg1.png" alt="" id="bg1">
+  <img src="images/bg2.png" alt="" id="bg2">
+  <img src="images/bg3.png" alt="" id="bg3">
+  <img src="images/bg4.png" alt="" id="bg4">
+
+  <!-- lands -->
+  <img src="images/plat1.png" alt="" id="land1">
+  <img src="images/plat2.png" alt="" id="land2">
+  <img src="images/plat3.png" alt="" id="land3">
+  <img src="images/plat4.png" alt="" id="land4">
+  <img src="images/plat5.png" alt="" id="land5">
+  <img src="images/plat6.png" alt="" id="land6">
+
+  <!-- player -->
+  <img src="images/spritesheet/idle_rosa.png" alt="" id="idle_rosa">
+  <img src="images/spritesheet/jump_rosa.png" alt="" id="jump_rosa">
+  <img src="images/spritesheet/idle_amarelo.png" alt="" id="idle_amarelo">
+  <img src="images/spritesheet/jump_amarelo.png" alt="" id="jump_amarelo">
+  <img src="images/spritesheet/idle_azul.png" alt="" id="idle_azul">
+  <img src="images/spritesheet/jump_azul.png" alt="" id="jump_azul">
+  <img src="images/spritesheet/idle_verde.png" alt="" id="idle_verde">
+  <img src="images/spritesheet/jump_verde.png" alt="" id="jump_verde">
+
+  <!-- star -->
+  <img src="images/estrela.png" alt="" id="estrela">
+
+  <!-- thorn -->
+  <img src="images/espinho.png" alt="" id="espinho">
+
+  <script src="script.js"></script>
+</body>
+</html>
