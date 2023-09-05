@@ -2,13 +2,14 @@ window.addEventListener('load', function(){
   const canvas = this.document.getElementById('canvas1');
   const ctx = canvas.getContext('2d');
   canvas.width = 730;
-  canvas.height = 1058;
+  canvas.height = 1000;
 
   const amarelo = this.document.getElementById("amarelo");
   const azul = this.document.getElementById("azul");
   const rosa = this.document.getElementById("rosa");
   const verde = this.document.getElementById("verde");
   const startBtn = this.document.getElementById("startBtn");
+  const restartBtn = this.document.getElementById("restartBtn");
   let player = "rosa";
   let gameStarted = false;
 
@@ -36,6 +37,10 @@ window.addEventListener('load', function(){
     gameStarted = true;
   }
 
+  restartBtn.onclick = function(){
+    location.reload();
+  }
+
   class InputHandler{
     constructor(game){
       this.game = game;
@@ -44,17 +49,12 @@ window.addEventListener('load', function(){
         && this.game.keys.indexOf(e.key) === -1){
          this.game.keys.push(e.key);
         }
-        if(e.key === ' '){
-          this.game.player.enterJump();
-        }
-        console.log(this.game.keys);
       });
 
       window.addEventListener('keyup', e => {
         if(this.game.keys.indexOf(e.key) > -1){
           this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
         }
-        console.log(this.game.keys);
       });
     }
   }
@@ -76,7 +76,7 @@ window.addEventListener('load', function(){
       this.vy = 0;
       this.weight = 1;
       this.speed = 0;
-      this.maxSpeed = 22;
+      this.maxSpeed = 17.6;
       this.image = document.getElementById("idle_" + player);
       this.isJumping = false;
     }
@@ -119,10 +119,14 @@ window.addEventListener('load', function(){
 
       this.touchDown(this.game.layer.allLands);
 
+      if(this.game.keys.includes(' ')){
+        this.enterJump();
+      }
+
       if(this.game.keys.includes('ArrowLeft')) {
-        this.x -= 1;
+        this.x -= 3;
       } else if(this.game.keys.includes('ArrowRight')){
-        this.x += 1;
+        this.x += 3;
       }
 
       if(this.onLand(this.game.layer.allLands)){
@@ -131,16 +135,20 @@ window.addEventListener('load', function(){
         if((this.game.keys.includes(' '))){
           if(this.game.keys.includes('ArrowLeft')){
             this.enterJump();
-            this.speed = -this.maxSpeed * 0.8;
+            this.speed = -this.maxSpeed;
             this.vy = -22;
           } else if(this.game.keys.includes('ArrowRight')){
             this.enterJump();
-            this.speed = this.maxSpeed * 0.8;
+            this.speed = this.maxSpeed;
             this.vy = -22;
           }
         }
       } else{
         this.vy += this.weight;
+      }
+
+      if(this.y > this.game.height){
+        this.game.gameOver = true;
       }
     }
     draw(context){
@@ -164,7 +172,7 @@ window.addEventListener('load', function(){
           this.vy = 0;
         }
       }
-    }   
+    } 
   }
 
   class Star{
@@ -192,11 +200,13 @@ window.addEventListener('load', function(){
   class Thorn{
     constructor(game){
       this.game = game;
-      this.width = 27;
-      this.height = 70;
+      this.spriteWidth = 27;
+      this.spriteHeight = 70;
+      this.width = this.spriteWidth * 0.9;
+      this.height = this.spriteHeight * 0.9;
       this.x = Math.random() * (this.game.width - this.width);
       this.y = 0;
-      this.speedY = Math.random() * -1.5 - 0.5;
+      this.speedY = -5;
       this.image = document.getElementById("espinho");
       this.markedForDeletion = false;
     }
@@ -207,7 +217,7 @@ window.addEventListener('load', function(){
       }
     }
     draw(context){
-      context.drawImage(this.image, this.x, this.y);
+      context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
   }
 
@@ -281,11 +291,13 @@ window.addEventListener('load', function(){
   class Background{
     constructor(game){
       this.game = game;
-      this.width = 730;
-      this.height = 1058;
+      this.spriteWidth = 730;
+      this.spriteHeight = 1058;
+      this.width = this.spriteWidth;
+      this.height = this.spriteHeight - 58;
     }
     draw(context){
-      context.drawImage(this.image, this.x, this.y);
+      context.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
       this.lands.forEach(land => land.draw(context));
     }
     setXY(x, y){
@@ -345,22 +357,18 @@ window.addEventListener('load', function(){
       this.nextBg = this.backgrounds[1];
       
       this.currentBg.setXY(0, 0);
-      this.nextBg.setXY(0, this.currentBg.y - 1058);
+      this.nextBg.setXY(0, this.currentBg.y - 1000); //1058
 
       this.allLands = [];
-
-      //this.currentLand = this.allLands[0];
-
-      //this.nextLand = this.allLands[1];
     }
     update(){
       this.currentBg.y += this.game.move;
-      this.nextBg.setXY(0, this.currentBg.y - 1058);
+      this.nextBg.setXY(0, this.currentBg.y - 1000); //1058
 
       this.currentBg.lands[0].setXY(489, this.currentBg.y + 879);
       this.currentBg.lands[1].setXY(80, this.currentBg.y + 629);
       this.currentBg.lands[2].setXY(439, this.currentBg.y + 379);
-      this.currentBg.lands[3].setXY(80, this.currentBg.y + 129); //129
+      this.currentBg.lands[3].setXY(80, this.currentBg.y + 129);
 
       this.nextBg.lands[0].setXY(489, this.nextBg.y + 879);
       this.nextBg.lands[1].setXY(80, this.nextBg.y + 629);
@@ -369,7 +377,7 @@ window.addEventListener('load', function(){
 
       this.allLands = [this.currentBg.lands[0], this.currentBg.lands[1], this.currentBg.lands[2], this.currentBg.lands[3], this.nextBg.lands[0], this.nextBg.lands[1], this.nextBg.lands[2], this.nextBg.lands[3]]; 
 
-      if(this.currentBg.y > this.currentBg.height){
+      if(this.currentBg.y >= this.currentBg.height){
         if(this.currentBg === this.backgrounds[0]){
           this.currentBg = this.backgrounds[1];
           this.nextBg = this.backgrounds[2];
@@ -394,12 +402,40 @@ window.addEventListener('load', function(){
   class UI{
     constructor(game){
       this.game = game;
-      this.fontSize = 25;
+      this.fontSize = 35;
       this.fontFamily = 'Bangers';
       this.color = 'white';
     }
     draw(context){
+      context.save();
+      context.fillStyle = this.color;
+      context.shadowOffsetX = 5;
+      context.shadowOffsetY = 5;
+      context.shadowColor = 'black';
+      context.font = this.fontSize + "px " + this.fontFamily;
 
+      //score
+      context.fillText('Score: ' + this.game.score, 20, 40);
+
+      //distance
+      context.fillText('Distance: ' + this.game.distance, 200, 40);
+
+      //game over
+      if(this.game.gameOver){
+        context.textAlign = 'center';
+        let message1 = "Game Over!";
+        let message2 = "Score: " + this.game.score;
+        let message3 = "Distance: " + this.game.distance;
+
+        context.font = '70px ' + this.fontFamily;
+        context.fillText(message1, this.game.width * 0.5, this.game.height * 0.5 - 20);
+
+        context.font = '30px ' + this.fontFamily;
+        context.fillText(message2, this.game.width * 0.5, this.game.height * 0.5 + 20);
+        context.fillText(message3, this.game.width * 0.5, this.game.height * 0.5 + 60);
+      }
+
+      context.restore();
     }
   }
 
@@ -410,24 +446,32 @@ window.addEventListener('load', function(){
       this.layer = new Layer(this);
       this.player = new Player(this);
       this.input = new InputHandler(this);
+      this.ui = new UI(this);
       this.keys = [];
       this.stars = [];
       this.thorns = [];
       this.move = 0;
       this.starTimer = 0;
-      this.starInterval = 2000;
+      this.starInterval = 800;
       this.thornTimer = 0;
-      this.thornInterval = 4000;
+      this.thornInterval = 2000;
       this.score = 0;
+      this.distance = 0;
       this.gameOver = false;
     }
     update(deltaTime){
+      if(this.gameOver){
+        gameStarted = false;
+      }
 
       if(gameStarted){
-        this.move = 2;
+        this.move = 2.5;
+        this.distance++;
       } else{
+        this.move = 0;
         this.starTimer = 0;
         this.thornTimer = 0;
+        this.keys = [];
       }
 
       this.layer.update();
@@ -460,23 +504,23 @@ window.addEventListener('load', function(){
       //check collision between player and stars
       this.stars.forEach(star => {
         if(this.checkCollision(star,this.player)){
-          this.score++;
           star.markedForDeletion = true;
+          if(!(this.gameOver)){
+            this.score++;
+          }
         }
       });
 
       //check collision between player and thorns
       this.thorns.forEach(thorn =>{
         if(this.checkCollision(thorn,this.player)){
-          // thorn.speedY = 0;
           this.gameOver = true;
         }
       });
-
-      if(this.gameOver) this.move = 0;
     }
     draw(context){
       this.layer.draw(context);
+      this.ui.draw(context);
       this.player.draw(context);
 
       //draw stars
@@ -492,10 +536,10 @@ window.addEventListener('load', function(){
       this.thorns.push(new Thorn(this));
     }
     checkCollision(rect1, rect2){
-      return( rect1.x < rect2.x + rect2.width &&
-              rect1.x + rect1.width > rect2.x &&
-              rect1.y < rect2.y + rect2.height &&
-              rect1.height + rect1.y > rect2.y )
+      return( rect1.x + 30 < rect2.x + rect2.width &&
+              rect1.x + 30 + rect1.width - 60> rect2.x &&
+              rect1.y + 30 < rect2.y + rect2.height &&
+              rect1.height - 60 + rect1.y + 30 > rect2.y )
     }
   }
 
