@@ -4,6 +4,8 @@ Welcome to the Jumping Game repository !
 
 **Play the game [here](https://massila2522.github.io/jumping_game/)**
 
+**Watch the demonstration video [here](https://youtu.be/cBZuwBdusHQ)**
+
 ## Description
 I developed Jumping Game, a 2D game, using vanilla JavaScript—no libraries or frameworks involved. The process of envisioning its behavior, crafting algorithms, and animating elements was both enjoyable and educational.
 
